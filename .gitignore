@@ -1,0 +1,8 @@
+# Vim and Emacs autosave/backup/swap files
+.*
+*.orig
+*~
+\#*#
+
+# rastcc binaries
+rastdemo.s19
