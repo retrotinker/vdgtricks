@@ -4,5 +4,14 @@
 *~
 \#*#
 
+# generated source
+colors.h
+
+# intermediate objects
+gencolors.o
+
+# tool binaries
+gencolors
+
 # rastcc binaries
 rastdemo.s19
