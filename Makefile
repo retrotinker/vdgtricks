@@ -2,7 +2,7 @@
 
 CFLAGS=-Wall
 
-TARGETS=gencolors colors.h rastdemo.s19
+TARGETS=ppmtog6c8 gencolors colors.h rastdemo.s19
 
 all: $(TARGETS)
 
@@ -16,6 +16,9 @@ gencolors: gencolors.o
 
 colors.h: gencolors
 	./gencolors > $@
+
+ppmtog6c8: ppmtog6c8.c palette.h colors.h
+	$(CC) $(CFLAGS) -o ppmtog6c8 ppmtog6c8.c
 
 rastdemo.s19: rastdemo.asm
 	mamou -mb -ts -orastdemo.s19 rastdemo.asm -l -y

@@ -12,6 +12,7 @@ gencolors.o
 
 # tool binaries
 gencolors
+ppmtog6c8
 
 # rastcc binaries
 rastdemo.s19
