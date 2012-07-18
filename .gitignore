@@ -17,3 +17,10 @@ ppmtosg24
 
 # rastcc binaries
 rastdemo.s19
+
+# test images and binaries
+test.ppm
+testg6c8.asm
+testg6c8.s19
+testsg24.asm
+testsg24.s19
