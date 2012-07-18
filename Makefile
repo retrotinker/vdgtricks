@@ -4,7 +4,7 @@ CFLAGS=-Wall
 
 TARGETS=ppmtog6c8 ppmtosg24 \
 	testg6c8.s19 testsg24.s19 \
-	rastdemo.s19
+	paltest.s19 paltest.ppm
 
 EXTRA=gencolors colors.h test.ppm testg6c8.asm testsg24.asm
 
@@ -27,8 +27,11 @@ ppmtog6c8: ppmtog6c8.c palette.h colors.h
 ppmtosg24: ppmtosg24.c palette.h
 	$(CC) $(CFLAGS) -o ppmtosg24 ppmtosg24.c
 
-rastdemo.s19: rastdemo.asm
-	mamou -mb -ts -orastdemo.s19 rastdemo.asm -l -y
+paltest.s19: paltest.asm
+	mamou -mb -ts -opaltest.s19 paltest.asm -l -y
+
+paltest.ppm: paltest.dat
+	xxd -p -r $< $@
 
 test.ppm: test.jpg
 	convert -resize 125x200%! -resize 128x192 -quantize YIQ +dither \

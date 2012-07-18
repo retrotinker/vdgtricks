@@ -15,8 +15,9 @@ gencolors
 ppmtog6c8
 ppmtosg24
 
-# rastcc binaries
-rastdemo.s19
+# paltest binaries
+paltest.s19
+paltest.ppm
 
 # test images and binaries
 test.ppm
