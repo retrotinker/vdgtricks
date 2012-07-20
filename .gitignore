@@ -14,6 +14,7 @@ gencolors.o
 gencolors
 ppmtog6c8
 ppmtosg24
+ppmtoflip44
 
 # paltest binaries
 paltest.s19
@@ -25,3 +26,5 @@ testg6c8.asm
 testg6c8.s19
 testsg24.asm
 testsg24.s19
+testflip44.asm
+testflip44.s19
