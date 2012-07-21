@@ -39,7 +39,7 @@ paltest.ppm: paltest.dat
 
 test.ppm: test.jpg
 	convert -resize 125x200%! -resize 128x192 -quantize YIQ +dither \
-		-background black -gravity center -extent 128x192 \
+		-background blue -gravity center -extent 128x192 \
 		test.jpg test.ppm
 
 testg6c8.asm: test.ppm ppmtog6c8
