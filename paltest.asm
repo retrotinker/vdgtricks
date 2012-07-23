@@ -5,13 +5,13 @@ LOAD	equ	$1e00
 
 	org	LOAD
 
-START	lda	#$ff	; Setup DP register
+START	lda	#$ff	Setup DP register
 	tfr	a,dp
 	setdp	$ff
 
-	orcc	#$50	; Disable interrupts
+	orcc	#$50	Disable interrupts
 
-	ldx	#$0600	; Preload "rainbow" image data
+	ldx	#$0600	Preload "rainbow" image data
 PSET	lda	#$ff
 	sta	,x
 	sta	1,x
@@ -56,42 +56,42 @@ PSET	lda	#$ff
 	cmpx	#$1200
 	bne	PSET
 
-VINIT	clr	$ffc5	; Setup G3C video mode at address $0600
+VINIT	clr	$ffc5	Setup G3C video mode at address $0600
 	clr	$ffc7
 	lda	#$c8
 	sta	$ff22
 
-VSTART	ldb     $ff01	; Disable hsync interrupt generation
+VSTART	ldb     $ff01	Disable hsync interrupt generation
 	andb	#$fa
 	stb     $ff01
 	tst	$ff00
 
-	lda     $ff03	; Enable vsync interrupt generation
+	lda     $ff03	Enable vsync interrupt generation
 	ora     #$05
 	sta     $ff03
 	tst	$ff02
 
-	sync		; Wait for vsync interrupt
+	sync		Wait for vsync interrupt
 
-	anda	#$fa	; Disable vsync interrupt generation
+	anda	#$fa	Disable vsync interrupt generation
 	sta     $ff03
 	tst	$ff02
 
-	orb     #$05	; Enable hsync interrupt generation
+	orb     #$05	Enable hsync interrupt generation
 	stb     $ff01
 	tst	$ff00
 
 *
 * After the program starts, vsync interrupts aren't used...
 *
-VSYNC	ldb	#$45	; Count lines during vblank and vertical borders
+VSYNC	ldb	#$45	Count lines during vblank and vertical borders
 HCOUNT	tst	$ff00
 	sync
 
 	decb
 	bne	HCOUNT
 
-	lda	#$c8	; Setup CSS options for raster effects
+	lda	#$c8	Setup CSS options for raster effects
 	ldb	#$c0
 
 *
@@ -99,16 +99,14 @@ HCOUNT	tst	$ff00
 * then each line will have individual sta/stb sequences and possibly
 * with other cycle delays as appropriate for the given image.
 *
-	tst	$ff00	; Wait for next hsync interrupt
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop		; Extra delay for beginning of visible line
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22	; Change CSS up to 8 times per line
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -116,23 +114,19 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22	; Last CSS change during visible line sets border
 
 *
 * Repeated 191 more times...
 *
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -141,18 +135,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -160,19 +150,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -180,19 +166,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -201,18 +183,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -221,18 +199,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -241,18 +215,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -260,19 +230,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -280,19 +246,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -301,18 +263,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -321,18 +279,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -341,18 +295,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -360,19 +310,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -380,19 +326,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -401,18 +343,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -421,18 +359,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -441,18 +375,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -460,19 +390,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -480,19 +406,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -501,18 +423,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -521,18 +439,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -541,18 +455,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -560,19 +470,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -580,19 +486,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -601,18 +503,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -621,18 +519,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -641,18 +535,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -660,19 +550,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -681,18 +567,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -701,18 +583,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -720,19 +598,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -740,19 +614,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -761,18 +631,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -781,18 +647,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -801,18 +663,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -820,19 +678,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -840,19 +694,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -861,18 +711,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -881,18 +727,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -901,18 +743,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -920,19 +758,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -940,19 +774,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -961,18 +791,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -981,18 +807,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1001,18 +823,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1020,19 +838,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1040,19 +854,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1061,18 +871,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1081,18 +887,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1101,18 +903,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1120,19 +918,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1140,19 +934,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1161,18 +951,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1181,18 +967,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1200,19 +982,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1221,18 +999,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1241,18 +1015,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1261,18 +1031,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1280,19 +1046,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1300,19 +1062,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1321,18 +1079,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1341,18 +1095,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1361,18 +1111,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1380,19 +1126,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1400,19 +1142,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1421,18 +1159,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1441,18 +1175,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1461,18 +1191,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1480,19 +1206,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1500,19 +1222,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1521,18 +1239,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1541,18 +1255,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1561,18 +1271,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1580,19 +1286,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1600,19 +1302,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1621,18 +1319,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1641,18 +1335,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1661,18 +1351,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1680,19 +1366,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1700,19 +1382,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1721,18 +1399,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1740,19 +1414,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1760,19 +1430,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1781,18 +1447,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1801,18 +1463,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1821,18 +1479,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1840,19 +1494,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1860,19 +1510,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1881,18 +1527,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1901,18 +1543,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1921,18 +1559,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1940,19 +1574,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1960,19 +1590,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -1981,18 +1607,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2001,18 +1623,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2021,18 +1639,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2040,19 +1654,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2060,19 +1670,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2081,18 +1687,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2101,18 +1703,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2121,18 +1719,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2140,19 +1734,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2160,19 +1750,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2181,18 +1767,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2201,18 +1783,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2221,18 +1799,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2240,19 +1814,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2261,18 +1831,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2280,19 +1846,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2301,18 +1863,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2320,19 +1878,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2341,18 +1895,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2360,19 +1910,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2381,18 +1927,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2400,19 +1942,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2421,18 +1959,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2440,19 +1974,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2461,18 +1991,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2480,19 +2006,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2501,18 +2023,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2520,19 +2038,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2541,18 +2055,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2560,19 +2070,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2581,18 +2087,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2600,19 +2102,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2621,18 +2119,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2640,19 +2134,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2661,18 +2151,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2680,19 +2166,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2701,18 +2183,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2720,19 +2198,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2741,18 +2215,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2760,19 +2230,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2781,18 +2247,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2800,19 +2262,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2821,18 +2279,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2840,19 +2294,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2861,18 +2311,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2880,19 +2326,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2901,18 +2343,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2920,19 +2358,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2941,18 +2375,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2960,19 +2390,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -2981,18 +2407,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3000,19 +2422,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3021,18 +2439,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3040,19 +2454,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3061,18 +2471,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3080,19 +2486,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3101,18 +2503,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3120,19 +2518,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3141,18 +2535,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3160,19 +2550,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3181,18 +2567,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3200,19 +2582,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3221,18 +2599,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3240,19 +2614,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3261,18 +2631,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3280,19 +2646,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3301,18 +2663,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3320,19 +2678,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3341,18 +2695,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3360,19 +2710,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3381,18 +2727,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3400,19 +2742,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3421,18 +2759,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3440,19 +2774,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3461,18 +2791,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3480,19 +2806,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3501,18 +2823,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3520,19 +2838,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3541,18 +2855,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3560,19 +2870,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3581,18 +2887,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3600,19 +2902,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3621,18 +2919,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3640,19 +2934,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3661,18 +2951,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3680,19 +2966,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3701,18 +2983,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3720,19 +2998,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3741,18 +3015,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3760,19 +3030,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3781,18 +3047,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3800,19 +3062,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3821,18 +3079,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3840,19 +3094,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3861,18 +3111,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3880,19 +3126,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3901,18 +3143,14 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-*	sta	$ff22
-
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
-	nop
-*	andcc	#$ff
+	nop		Extra delay for beginning of visible line
 	nop
 	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3920,19 +3158,15 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
-	tst	$ff00
+	tst	$ff00	Wait for next hsync interrupt
 	sync
 
+	nop		Extra delay for beginning of visible line
 	nop
-*	andcc	#$ff
 	nop
-	nop
-*
 
-	stb	$ff22
+	stb	$ff22	Change CSS up to 8 times per line
 	sta	$ff22
 	stb	$ff22
 	stb	$ff22
@@ -3940,8 +3174,6 @@ HCOUNT	tst	$ff00
 	stb	$ff22
 	sta	$ff22
 	sta	$ff22
-
-*	sta	$ff22
 
 * Check for user break (development only)
 CHKUART	lda	$ff69		Check for serial port activity
