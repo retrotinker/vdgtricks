@@ -9,7 +9,9 @@ TARGETS=ppmtog6c8 ppmtosg24 ppmtoflip44 \
 	paltest1.s19 \
 	paltest2.s19
 
-EXTRA=gencolors colors.h test.ppm testg6c8.asm testsg24.asm
+OBJECTS=gencolors.o test.ppm testg6c8.asm testsg24.asm testflip44.asm
+
+EXTRA=gencolors colors.h
 
 all: $(TARGETS)
 
@@ -66,4 +68,4 @@ testflip44.s19: testflip44.asm
 	mamou -mb -ts -otestflip44.s19 testflip44.asm -l -y
 
 clean:
-	rm -f $(TARGETS) $(EXTRA)
+	rm -f $(TARGETS) $(EXTRA) $(OBJECTS)
