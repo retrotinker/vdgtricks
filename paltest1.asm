@@ -14,7 +14,7 @@
 * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *
 
-	nam	rastdemo
+	nam	paltest1
 	ttl	Display all eight colors in graphics mode on Color Computer
 
 LOAD	equ	$1e00

@@ -13,8 +13,8 @@
 * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *
-	nam	rastdemo
-	ttl	Display all eight colors in graphics mode on Color Computer
+	nam	paltest2
+	ttl	Display 44 colors using a "flicker" mode on the CoCo
 
 LOAD	equ	$1e00
 
