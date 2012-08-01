@@ -17,8 +17,9 @@ ppmtosg24
 ppmtoflip44
 
 # paltest binaries
-paltest.s19
-paltest.ppm
+paltest1.ppm
+paltest1.s19
+paltest2.s19
 
 # test images and binaries
 test.ppm

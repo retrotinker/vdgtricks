@@ -5,7 +5,9 @@ CFLAGS=-Wall
 TARGETS=ppmtog6c8 ppmtosg24 ppmtoflip44 \
 	testg6c8.s19 testsg24.s19 \
 	testflip44.s19 \
-	paltest.s19 paltest.ppm
+	paltest1.ppm \
+	paltest1.s19 \
+	paltest2.s19
 
 EXTRA=gencolors colors.h test.ppm testg6c8.asm testsg24.asm
 
@@ -31,11 +33,14 @@ ppmtosg24: ppmtosg24.c palette.h
 ppmtoflip44: ppmtoflip44.c palette.h
 	$(CC) $(CFLAGS) -o ppmtoflip44 ppmtoflip44.c
 
-paltest.s19: paltest.asm
-	mamou -mb -ts -opaltest.s19 paltest.asm -l -y
+paltest1.s19: paltest1.asm
+	mamou -mb -ts -opaltest1.s19 paltest1.asm -l -y
 
-paltest.ppm: paltest.dat
+paltest1.ppm: paltest1.dat
 	xxd -p -r $< $@
+
+paltest2.s19: paltest2.asm
+	mamou -mb -ts -opaltest2.s19 paltest2.asm -l -y
 
 test.ppm: test.jpg
 	convert -resize 125x200%! -resize 128x192 -quantize YIQ +dither \
