@@ -115,11 +115,18 @@ struct blockdata process_block(int line, int block, struct rgb_err error)
 			workline[i][j] = inmap.pixel[line][hoffset + j];
 
 		workline[i][0].r =
-			add_clamp(workline[i][0].r, 0.4375 * error.r);
+			add_clamp(workline[i][0].r, 0.1250 * error.r);
 		workline[i][0].g =
-			add_clamp(workline[i][0].g, 0.4375 * error.g);
+			add_clamp(workline[i][0].g, 0.1250 * error.g);
 		workline[i][0].b =
-			add_clamp(workline[i][0].b, 0.4375 * error.b);
+			add_clamp(workline[i][0].b, 0.1250 * error.b);
+
+		workline[i][1].r =
+			add_clamp(workline[i][1].r, 0.1250 * error.r);
+		workline[i][1].g =
+			add_clamp(workline[i][1].g, 0.1250 * error.g);
+		workline[i][1].b =
+			add_clamp(workline[i][1].b, 0.1250 * error.b);
 	}
 
 	for (i = 0; i < 2; i++) {
@@ -144,15 +151,28 @@ struct blockdata process_block(int line, int block, struct rgb_err error)
 
 				workline[i][hpixel + 1].r =
 					add_clamp(workline[i][hpixel + 1].r, 
-						  0.4375 * (workline[i][hpixel].r -
+						  0.1250 * (workline[i][hpixel].r -
 							    palette[i][c].r));
 				workline[i][hpixel + 1].g =
 					add_clamp(workline[i][hpixel + 1].g, 
-						  0.4375 * (workline[i][hpixel].g -
+						  0.1250 * (workline[i][hpixel].g -
 							    palette[i][c].g));
 				workline[i][hpixel + 1].b =
 					add_clamp(workline[i][hpixel + 1].b, 
-						  0.4375 * (workline[i][hpixel].b -
+						  0.1250 * (workline[i][hpixel].b -
+							    palette[i][c].b));
+
+				workline[i][hpixel + 2].r =
+					add_clamp(workline[i][hpixel + 2].r, 
+						  0.1250 * (workline[i][hpixel].r -
+							    palette[i][c].r));
+				workline[i][hpixel + 2].g =
+					add_clamp(workline[i][hpixel + 2].g, 
+						  0.1250 * (workline[i][hpixel].g -
+							    palette[i][c].g));
+				workline[i][hpixel + 2].b =
+					add_clamp(workline[i][hpixel + 2].b, 
+						  0.1250 * (workline[i][hpixel].b -
 							    palette[i][c].b));
 			}
 		}
@@ -181,29 +201,29 @@ struct blockdata process_block(int line, int block, struct rgb_err error)
 		if (block != 0) {
 			inmap.pixel[line + 1][hoffset + j - 1].r =
 				add_clamp(inmap.pixel[line + 1][hoffset + j - 1].r,
-					  0.1875 * (workline[i][j].r -
+					  0.1250 * (workline[i][j].r -
 						    palette[i][chosen[i][j]].r));
 			inmap.pixel[line + 1][hoffset + j - 1].g =
 				add_clamp(inmap.pixel[line + 1][hoffset + j - 1].g,
-					  0.1875 * (workline[i][j].g -
+					  0.1250 * (workline[i][j].g -
 						    palette[i][chosen[i][j]].g));
 			inmap.pixel[line + 1][hoffset + j - 1].b =
 				add_clamp(inmap.pixel[line + 1][hoffset + j - 1].b,
-					  0.1875 * (workline[i][j].b -
+					  0.1250 * (workline[i][j].b -
 						    palette[i][chosen[i][j]].b));
 		}
 
 		inmap.pixel[line + 1][hoffset + j].r =
 			add_clamp(inmap.pixel[line + 1][hoffset + j].r,
-				  0.3125 * (workline[i][j].r -
+				  0.1250 * (workline[i][j].r -
 					    palette[i][chosen[i][j]].r));
 		inmap.pixel[line + 1][hoffset + j].g =
 			add_clamp(inmap.pixel[line + 1][hoffset + j].g,
-				  0.3125 * (workline[i][j].g -
+				  0.1250 * (workline[i][j].g -
 					    palette[i][chosen[i][j]].g));
 		inmap.pixel[line + 1][hoffset + j].b =
 			add_clamp(inmap.pixel[line + 1][hoffset + j].b,
-				  0.3125 * (workline[i][j].b -
+				  0.1250 * (workline[i][j].b -
 					    palette[i][chosen[i][j]].b));
 
 		if (block == BLOCKS_PER_LINE - 1 && j == PIXELS_PER_BLOCK - 1)
@@ -211,15 +231,34 @@ struct blockdata process_block(int line, int block, struct rgb_err error)
 
 		inmap.pixel[line + 1][hoffset + j + 1].r =
 			add_clamp(inmap.pixel[line + 1][hoffset + j + 1].r,
-				  0.0625 * (workline[i][j].r -
+				  0.1250 * (workline[i][j].r -
 					    palette[i][chosen[i][j]].r));
 		inmap.pixel[line + 1][hoffset + j + 1].g =
 			add_clamp(inmap.pixel[line + 1][hoffset + j + 1].g,
-				  0.0625 * (workline[i][j].g -
+				  0.1250 * (workline[i][j].g -
 					    palette[i][chosen[i][j]].g));
 		inmap.pixel[line + 1][hoffset + j + 1].b =
 			add_clamp(inmap.pixel[line + 1][hoffset + j + 1].b,
-				  0.0625 * (workline[i][j].b -
+				  0.1250 * (workline[i][j].b -
+					    palette[i][chosen[i][j]].b));
+	}
+
+	/* skip further error dispersal if on next to last line */
+	if (line == PPM_VERT_PIXELS - 2)
+		goto exit;
+
+	for (j = 0; j < PIXELS_PER_BLOCK; j++) {
+		inmap.pixel[line + 2][hoffset + j].r =
+			add_clamp(inmap.pixel[line + 2][hoffset + j].r,
+				  0.1250 * (workline[i][j].r -
+					    palette[i][chosen[i][j]].r));
+		inmap.pixel[line + 2][hoffset + j].g =
+			add_clamp(inmap.pixel[line + 2][hoffset + j].g,
+				  0.1250 * (workline[i][j].g -
+					    palette[i][chosen[i][j]].g));
+		inmap.pixel[line + 2][hoffset + j].b =
+			add_clamp(inmap.pixel[line + 2][hoffset + j].b,
+				  0.1250 * (workline[i][j].b -
 					    palette[i][chosen[i][j]].b));
 	}
 
