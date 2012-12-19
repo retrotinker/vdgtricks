@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2012, John W. Linville <linville@tuxdriver.com>
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
@@ -150,28 +150,28 @@ struct blockdata process_block(int line, int block, struct rgb_err error)
 					continue;
 
 				workline[i][hpixel + 1].r =
-					add_clamp(workline[i][hpixel + 1].r, 
+					add_clamp(workline[i][hpixel + 1].r,
 						  0.1250 * (workline[i][hpixel].r -
 							    palette[i][c].r));
 				workline[i][hpixel + 1].g =
-					add_clamp(workline[i][hpixel + 1].g, 
+					add_clamp(workline[i][hpixel + 1].g,
 						  0.1250 * (workline[i][hpixel].g -
 							    palette[i][c].g));
 				workline[i][hpixel + 1].b =
-					add_clamp(workline[i][hpixel + 1].b, 
+					add_clamp(workline[i][hpixel + 1].b,
 						  0.1250 * (workline[i][hpixel].b -
 							    palette[i][c].b));
 
 				workline[i][hpixel + 2].r =
-					add_clamp(workline[i][hpixel + 2].r, 
+					add_clamp(workline[i][hpixel + 2].r,
 						  0.1250 * (workline[i][hpixel].r -
 							    palette[i][c].r));
 				workline[i][hpixel + 2].g =
-					add_clamp(workline[i][hpixel + 2].g, 
+					add_clamp(workline[i][hpixel + 2].g,
 						  0.1250 * (workline[i][hpixel].g -
 							    palette[i][c].g));
 				workline[i][hpixel + 2].b =
-					add_clamp(workline[i][hpixel + 2].b, 
+					add_clamp(workline[i][hpixel + 2].b,
 						  0.1250 * (workline[i][hpixel].b -
 							    palette[i][c].b));
 			}

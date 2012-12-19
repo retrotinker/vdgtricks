@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2012, John W. Linville <linville@tuxdriver.com>
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
@@ -137,7 +137,7 @@ struct rgb_err pick_sgval(int line, int offset, struct rgb_err error)
 {
 	int i, pixbase, bestval = -1;
 	struct rgb left, right;
-	float errmin, curerr; 
+	float errmin, curerr;
 
 	errmin = FLT_MAX;
 	pixbase = offset * PIXELS_PER_SGVAL;
@@ -213,79 +213,79 @@ struct rgb_err pick_sgval(int line, int offset, struct rgb_err error)
 	add_clamp(right.b, 0.1250 * (left.b - sgval[bestval].left.b));
 
 	if (offset) {
-		inmap.pixel[line + 1][pixbase - 2].r = 
+		inmap.pixel[line + 1][pixbase - 2].r =
 			add_clamp(inmap.pixel[line + 1][pixbase - 2].r,
 					0.1250 * error.r);
-		inmap.pixel[line + 1][pixbase - 2].g = 
+		inmap.pixel[line + 1][pixbase - 2].g =
 			add_clamp(inmap.pixel[line + 1][pixbase - 2].g,
 					0.1250 * error.r);
-		inmap.pixel[line + 1][pixbase - 2].b = 
+		inmap.pixel[line + 1][pixbase - 2].b =
 			add_clamp(inmap.pixel[line + 1][pixbase - 2].b,
 					0.1250 * error.r);
-		inmap.pixel[line + 1][pixbase - 1].r = 
+		inmap.pixel[line + 1][pixbase - 1].r =
 			add_clamp(inmap.pixel[line + 1][pixbase - 1].r,
 					0.1250 * error.r);
-		inmap.pixel[line + 1][pixbase - 1].g = 
+		inmap.pixel[line + 1][pixbase - 1].g =
 			add_clamp(inmap.pixel[line + 1][pixbase - 1].g,
 					0.1250 * error.r);
-		inmap.pixel[line + 1][pixbase - 1].b = 
+		inmap.pixel[line + 1][pixbase - 1].b =
 			add_clamp(inmap.pixel[line + 1][pixbase - 1].b,
 					0.1250 * error.r);
 	}
-	inmap.pixel[line + 1][pixbase].r = 
+	inmap.pixel[line + 1][pixbase].r =
 		add_clamp(inmap.pixel[line + 1][pixbase].r,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase].g = 
+	inmap.pixel[line + 1][pixbase].g =
 		add_clamp(inmap.pixel[line + 1][pixbase].g,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase].b = 
+	inmap.pixel[line + 1][pixbase].b =
 		add_clamp(inmap.pixel[line + 1][pixbase].b,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 1].r = 
+	inmap.pixel[line + 1][pixbase + 1].r =
 		add_clamp(inmap.pixel[line + 1][pixbase + 1].r,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 1].g = 
+	inmap.pixel[line + 1][pixbase + 1].g =
 		add_clamp(inmap.pixel[line + 1][pixbase + 1].g,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 1].b = 
+	inmap.pixel[line + 1][pixbase + 1].b =
 		add_clamp(inmap.pixel[line + 1][pixbase + 1].b,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 2].r = 
+	inmap.pixel[line + 1][pixbase + 2].r =
 		add_clamp(inmap.pixel[line + 1][pixbase + 2].r,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 2].g = 
+	inmap.pixel[line + 1][pixbase + 2].g =
 		add_clamp(inmap.pixel[line + 1][pixbase + 2].g,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 2].b = 
+	inmap.pixel[line + 1][pixbase + 2].b =
 		add_clamp(inmap.pixel[line + 1][pixbase + 2].b,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 3].r = 
+	inmap.pixel[line + 1][pixbase + 3].r =
 		add_clamp(inmap.pixel[line + 1][pixbase + 3].r,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 3].g = 
+	inmap.pixel[line + 1][pixbase + 3].g =
 		add_clamp(inmap.pixel[line + 1][pixbase + 3].g,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 3].b = 
+	inmap.pixel[line + 1][pixbase + 3].b =
 		add_clamp(inmap.pixel[line + 1][pixbase + 3].b,
 				0.1250 * error.r);
 
 	if (line < PPM_VERT_PIXELS - 2) {
-		inmap.pixel[line + 2][pixbase].r = 
+		inmap.pixel[line + 2][pixbase].r =
 			add_clamp(inmap.pixel[line + 2][pixbase].r,
 					0.1250 * error.r);
-		inmap.pixel[line + 2][pixbase].g = 
+		inmap.pixel[line + 2][pixbase].g =
 			add_clamp(inmap.pixel[line + 2][pixbase].g,
 					0.1250 * error.r);
-		inmap.pixel[line + 2][pixbase].b = 
+		inmap.pixel[line + 2][pixbase].b =
 			add_clamp(inmap.pixel[line + 2][pixbase].b,
 					0.1250 * error.r);
-		inmap.pixel[line + 2][pixbase + 1].r = 
+		inmap.pixel[line + 2][pixbase + 1].r =
 			add_clamp(inmap.pixel[line + 2][pixbase + 1].r,
 					0.1250 * error.r);
-		inmap.pixel[line + 2][pixbase + 1].g = 
+		inmap.pixel[line + 2][pixbase + 1].g =
 			add_clamp(inmap.pixel[line + 2][pixbase + 1].g,
 					0.1250 * error.r);
-		inmap.pixel[line + 2][pixbase + 1].b = 
+		inmap.pixel[line + 2][pixbase + 1].b =
 			add_clamp(inmap.pixel[line + 2][pixbase + 1].b,
 					0.1250 * error.r);
 	}
@@ -294,80 +294,80 @@ struct rgb_err pick_sgval(int line, int offset, struct rgb_err error)
 	error.g = right.g - sgval[bestval].right.g;
 	error.b = right.b - sgval[bestval].right.b;
 
-	inmap.pixel[line + 1][pixbase].r = 
+	inmap.pixel[line + 1][pixbase].r =
 		add_clamp(inmap.pixel[line + 1][pixbase].r,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase].g = 
+	inmap.pixel[line + 1][pixbase].g =
 		add_clamp(inmap.pixel[line + 1][pixbase].g,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase].b = 
+	inmap.pixel[line + 1][pixbase].b =
 		add_clamp(inmap.pixel[line + 1][pixbase].b,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 1].r = 
+	inmap.pixel[line + 1][pixbase + 1].r =
 		add_clamp(inmap.pixel[line + 1][pixbase + 1].r,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 1].g = 
+	inmap.pixel[line + 1][pixbase + 1].g =
 		add_clamp(inmap.pixel[line + 1][pixbase + 1].g,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 1].b = 
+	inmap.pixel[line + 1][pixbase + 1].b =
 		add_clamp(inmap.pixel[line + 1][pixbase + 1].b,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 2].r = 
+	inmap.pixel[line + 1][pixbase + 2].r =
 		add_clamp(inmap.pixel[line + 1][pixbase + 2].r,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 2].g = 
+	inmap.pixel[line + 1][pixbase + 2].g =
 		add_clamp(inmap.pixel[line + 1][pixbase + 2].g,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 2].b = 
+	inmap.pixel[line + 1][pixbase + 2].b =
 		add_clamp(inmap.pixel[line + 1][pixbase + 2].b,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 3].r = 
+	inmap.pixel[line + 1][pixbase + 3].r =
 		add_clamp(inmap.pixel[line + 1][pixbase + 3].r,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 3].g = 
+	inmap.pixel[line + 1][pixbase + 3].g =
 		add_clamp(inmap.pixel[line + 1][pixbase + 3].g,
 				0.1250 * error.r);
-	inmap.pixel[line + 1][pixbase + 3].b = 
+	inmap.pixel[line + 1][pixbase + 3].b =
 		add_clamp(inmap.pixel[line + 1][pixbase + 3].b,
 				0.1250 * error.r);
 	if (offset < 31) {
-		inmap.pixel[line + 1][pixbase + 4].r = 
+		inmap.pixel[line + 1][pixbase + 4].r =
 			add_clamp(inmap.pixel[line + 1][pixbase + 4].r,
 					0.1250 * error.r);
-		inmap.pixel[line + 1][pixbase + 4].g = 
+		inmap.pixel[line + 1][pixbase + 4].g =
 			add_clamp(inmap.pixel[line + 1][pixbase + 4].g,
 					0.1250 * error.r);
-		inmap.pixel[line + 1][pixbase + 4].b = 
+		inmap.pixel[line + 1][pixbase + 4].b =
 			add_clamp(inmap.pixel[line + 1][pixbase + 4].b,
 					0.1250 * error.r);
-		inmap.pixel[line + 1][pixbase + 5].r = 
+		inmap.pixel[line + 1][pixbase + 5].r =
 			add_clamp(inmap.pixel[line + 1][pixbase + 5].r,
 					0.1250 * error.r);
-		inmap.pixel[line + 1][pixbase + 5].g = 
+		inmap.pixel[line + 1][pixbase + 5].g =
 			add_clamp(inmap.pixel[line + 1][pixbase + 5].g,
 					0.1250 * error.r);
-		inmap.pixel[line + 1][pixbase + 5].b = 
+		inmap.pixel[line + 1][pixbase + 5].b =
 			add_clamp(inmap.pixel[line + 1][pixbase + 5].b,
 					0.1250 * error.r);
 	}
 
 	if (line < PPM_VERT_PIXELS - 2) {
-		inmap.pixel[line + 2][pixbase + 2].r = 
+		inmap.pixel[line + 2][pixbase + 2].r =
 			add_clamp(inmap.pixel[line + 2][pixbase + 2].r,
 					0.1250 * error.r);
-		inmap.pixel[line + 2][pixbase + 2].g = 
+		inmap.pixel[line + 2][pixbase + 2].g =
 			add_clamp(inmap.pixel[line + 2][pixbase + 2].g,
 					0.1250 * error.r);
-		inmap.pixel[line + 2][pixbase + 2].b = 
+		inmap.pixel[line + 2][pixbase + 2].b =
 			add_clamp(inmap.pixel[line + 2][pixbase + 2].b,
 					0.1250 * error.r);
-		inmap.pixel[line + 2][pixbase + 3].r = 
+		inmap.pixel[line + 2][pixbase + 3].r =
 			add_clamp(inmap.pixel[line + 2][pixbase + 3].r,
 					0.1250 * error.r);
-		inmap.pixel[line + 2][pixbase + 3].g = 
+		inmap.pixel[line + 2][pixbase + 3].g =
 			add_clamp(inmap.pixel[line + 2][pixbase + 3].g,
 					0.1250 * error.r);
-		inmap.pixel[line + 2][pixbase + 3].b = 
+		inmap.pixel[line + 2][pixbase + 3].b =
 			add_clamp(inmap.pixel[line + 2][pixbase + 3].b,
 					0.1250 * error.r);
 	}
