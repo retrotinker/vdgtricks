@@ -300,13 +300,13 @@ struct rgb_err pick_sgval(int line, int offset, struct rgb_err error)
 				0.3125 * error.r);
 	if (offset < 31) {
 		inmap.pixel[line + 1][pixbase + 4].r = 
-			add_clamp(inmap.pixel[line + 1][pixbase + 5].r,
+			add_clamp(inmap.pixel[line + 1][pixbase + 4].r,
 					0.0625 * error.r);
 		inmap.pixel[line + 1][pixbase + 4].g = 
-			add_clamp(inmap.pixel[line + 1][pixbase + 5].g,
+			add_clamp(inmap.pixel[line + 1][pixbase + 4].g,
 					0.0625 * error.r);
 		inmap.pixel[line + 1][pixbase + 4].b = 
-			add_clamp(inmap.pixel[line + 1][pixbase + 5].b,
+			add_clamp(inmap.pixel[line + 1][pixbase + 4].b,
 					0.0625 * error.r);
 		inmap.pixel[line + 1][pixbase + 5].r = 
 			add_clamp(inmap.pixel[line + 1][pixbase + 5].r,
