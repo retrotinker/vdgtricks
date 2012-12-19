@@ -178,14 +178,13 @@ struct rgb_err pick_sgval(int line, int offset, struct rgb_err error)
 	/*
 	 * adjust for in-bound quantization error
 	 * using the Atkinson dithering algorithm
+	 *
+	 * Wierd math -- basically, you get 3x the error
+	 * averaged over two PMODE4 pixels, or 1.5 * 0.1250 * error
 	 */
-	add_clamp(left.r, 0.1250 * error.r);
-	add_clamp(left.g, 0.1250 * error.g);
-	add_clamp(left.b, 0.1250 * error.b);
-
-	add_clamp(right.r, 0.1250 * error.r);
-	add_clamp(right.g, 0.1250 * error.g);
-	add_clamp(right.b, 0.1250 * error.b);
+	add_clamp(left.r, 0.1875 * error.r);
+	add_clamp(left.g, 0.1875 * error.g);
+	add_clamp(left.b, 0.1875 * error.b);
 
 	/*
 	 * walk the SG values looking for best match,
@@ -279,9 +278,12 @@ struct rgb_err pick_sgval(int line, int offset, struct rgb_err error)
 	error.g = left.g - sgval[bestval].left.g;
 	error.b = left.b - sgval[bestval].left.b;
 
-	add_clamp(right.r, 0.1250 * (left.r - sgval[bestval].left.r));
-	add_clamp(right.g, 0.1250 * (left.g - sgval[bestval].left.g));
-	add_clamp(right.b, 0.1250 * (left.b - sgval[bestval].left.b));
+	/*
+	 * More wierd math -- see above...
+	 */
+	add_clamp(right.r, 0.1875 * (left.r - sgval[bestval].left.r));
+	add_clamp(right.g, 0.1875 * (left.g - sgval[bestval].left.g));
+	add_clamp(right.b, 0.1875 * (left.b - sgval[bestval].left.b));
 
 	if (offset) {
 		inmap1.pixel[line + 1][pixbase - 2].r =
@@ -466,12 +468,16 @@ struct blockdata process_block(int line, int block, struct rgb_err error)
 		for (j = 0; j < PIXELS_PER_BLOCK; j++)
 			workline[i][j] = inmap2.pixel[line][hoffset + j];
 
+		/*
+		 * Make a wild guess that error from 2-pixels to the left
+		 * matches the error from 1-pixel to the left...
+		 */
 		workline[i][0].r =
-			add_clamp(workline[i][0].r, 0.1250 * error.r);
+			add_clamp(workline[i][0].r, 0.2500 * error.r);
 		workline[i][0].g =
-			add_clamp(workline[i][0].g, 0.1250 * error.g);
+			add_clamp(workline[i][0].g, 0.2500 * error.g);
 		workline[i][0].b =
-			add_clamp(workline[i][0].b, 0.1250 * error.b);
+			add_clamp(workline[i][0].b, 0.2500 * error.b);
 
 		workline[i][1].r =
 			add_clamp(workline[i][1].r, 0.1250 * error.r);
@@ -513,6 +519,10 @@ struct blockdata process_block(int line, int block, struct rgb_err error)
 					add_clamp(workline[i][hpixel + 1].b,
 						  0.1250 * (workline[i][hpixel].b -
 							    palette[i][c].b));
+
+				if (j == BYTES_PER_BLOCK - 1 &&
+				    k == PIXELS_PER_BYTE - 2)
+					continue;
 
 				workline[i][hpixel + 2].r =
 					add_clamp(workline[i][hpixel + 2].r,

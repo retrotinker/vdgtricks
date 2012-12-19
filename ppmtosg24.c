@@ -161,14 +161,13 @@ struct rgb_err pick_sgval(int line, int offset, struct rgb_err error)
 	/*
 	 * adjust for in-bound quantization error
 	 * using the Atkinson dithering algorithm
+	 *
+	 * Wierd math -- basically, you get 3x the error
+	 * averaged over two PMODE4 pixels, or 1.5 * 0.1250 * error
 	 */
-	add_clamp(left.r, 0.1250 * error.r);
-	add_clamp(left.g, 0.1250 * error.g);
-	add_clamp(left.b, 0.1250 * error.b);
-
-	add_clamp(right.r, 0.1250 * error.r);
-	add_clamp(right.g, 0.1250 * error.g);
-	add_clamp(right.b, 0.1250 * error.b);
+	add_clamp(left.r, 0.1875 * error.r);
+	add_clamp(left.g, 0.1875 * error.g);
+	add_clamp(left.b, 0.1875 * error.b);
 
 	/*
 	 * walk the SG values looking for best match,
@@ -208,9 +207,12 @@ struct rgb_err pick_sgval(int line, int offset, struct rgb_err error)
 	error.g = left.g - sgval[bestval].left.g;
 	error.b = left.b - sgval[bestval].left.b;
 
-	add_clamp(right.r, 0.1250 * (left.r - sgval[bestval].left.r));
-	add_clamp(right.g, 0.1250 * (left.g - sgval[bestval].left.g));
-	add_clamp(right.b, 0.1250 * (left.b - sgval[bestval].left.b));
+	/*
+	 * More wierd math -- see above...
+	 */
+	add_clamp(right.r, 0.1875 * (left.r - sgval[bestval].left.r));
+	add_clamp(right.g, 0.1875 * (left.g - sgval[bestval].left.g));
+	add_clamp(right.b, 0.1875 * (left.b - sgval[bestval].left.b));
 
 	if (offset) {
 		inmap.pixel[line + 1][pixbase - 2].r =
