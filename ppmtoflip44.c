@@ -712,7 +712,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	fprintf(outfile, "\torg $0600\n");
+	fprintf(outfile, "\torg $0e00\n");
 
 	for (i = 0; i < PPM_VERT_PIXELS; i++)
 		for (j = 0; j < PPM_HORIZ_PIXELS / PIXELS_PER_BYTE; j += 8) {
@@ -725,14 +725,29 @@ int main(int argc, char *argv[])
 				g6cbuf[i][j+6], g6cbuf[i][j+7]);
 		}
 
-	fprintf(outfile, "\torg $1e00\n");
+	fprintf(outfile, "\torg $2600\n");
+
+	for (i = 0; i < PPM_VERT_PIXELS; i++)
+		for (j = 0; j < SGVALS_PER_LINE; j += 8) {
+			fprintf(outfile,
+				"\tfcb\t$%02x,$%02x,$%02x,$%02x,"
+				"$%02x,$%02x,$%02x,$%02x\n",
+				sgvbuf[i][j],   sgvbuf[i][j+1],
+				sgvbuf[i][j+2], sgvbuf[i][j+3],
+				sgvbuf[i][j+4], sgvbuf[i][j+5],
+				sgvbuf[i][j+6], sgvbuf[i][j+7]);
+		}
+
+	fprintf(outfile, "\torg $3e00\n");
 	fprintf(outfile, "START\tlda\t#$ff\tSetup DP register\n");
 	fprintf(outfile, "\ttfr\ta,dp\n");
 	fprintf(outfile, "\tsetdp\t$ff\n");
 	fprintf(outfile, "\torcc\t#$50\tDisable interrupts\n");
-	fprintf(outfile, "\tclr\t$ffc3\tSetup G6C video mode at address $0600\n");
+	fprintf(outfile, "\tclr\t$ffc3\tSetup G6C video mode at address $3e00\n");
 	fprintf(outfile, "\tclr\t$ffc5\n");
 	fprintf(outfile, "\tclr\t$ffc7\n");
+	fprintf(outfile, "\tclr\t$ffc9\n");
+	fprintf(outfile, "\tclr\t$ffcb\n");
 	fprintf(outfile, "VSTART\tldb\t$ff01\tDisable hsync interrupt generation\n");
 	fprintf(outfile, "\tandb\t#$fa\n");
 	fprintf(outfile, "\tstb\t$ff01\n");
@@ -748,8 +763,8 @@ int main(int argc, char *argv[])
 	fprintf(outfile, "\torb\t#$05\tEnable hsync interrupt generation\n");
 	fprintf(outfile, "\tstb\t$ff01\n");
 	fprintf(outfile, "\ttst\t$ff00\n");
-	fprintf(outfile, "VINIT\tclr\t$ffcc\n");
-	fprintf(outfile, "\tclr\t$ffce\n");
+	fprintf(outfile, "VINIT\tclr\t$ffce\n");
+	fprintf(outfile, "\tclr\t$ffcb\n");
 	fprintf(outfile, "*\n");
 	fprintf(outfile, "* After the program starts, vsync interrupts aren't used...\n");
 	fprintf(outfile, "*\n");
@@ -779,23 +794,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	fprintf(outfile, "\tjmp\tSGVINIT\n");
-
-	fprintf(outfile, "\torg $3600\n");
-
-	for (i = 0; i < PPM_VERT_PIXELS; i++)
-		for (j = 0; j < SGVALS_PER_LINE; j += 8) {
-			fprintf(outfile,
-				"\tfcb\t$%02x,$%02x,$%02x,$%02x,"
-				"$%02x,$%02x,$%02x,$%02x\n",
-				sgvbuf[i][j],   sgvbuf[i][j+1],
-				sgvbuf[i][j+2], sgvbuf[i][j+3],
-				sgvbuf[i][j+4], sgvbuf[i][j+5],
-				sgvbuf[i][j+6], sgvbuf[i][j+7]);
-		}
-
-	fprintf(outfile, "\torg $4e00\n");
-	fprintf(outfile, "SGVINIT\tclr\t$ffcd\n");
+	fprintf(outfile, "SGVINIT\tclr\t$ffca\n");
 	fprintf(outfile, "\tclr\t$ffcf\n");
 	fprintf(outfile, "\tlda\t#$e0\n");
 	fprintf(outfile, "\tsta\t$ff22\n");
