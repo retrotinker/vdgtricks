@@ -37,3 +37,10 @@ testsg24.s19
 testflip44.asm
 testflip44.bin
 testflip44.s19
+
+# cassette image WAV files
+paltest1.wav
+paltest2.wav
+testg6c8.wav
+testsg24.wav
+testflip44.wav

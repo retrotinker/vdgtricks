@@ -3,12 +3,12 @@
 CFLAGS=-Wall
 
 TARGETS=ppmtog6c8 ppmtosg24 ppmtoflip44 \
-	testg6c8.bin testg6c8.s19 \
-	testsg24.bin testsg24.s19 \
-	testflip44.bin testflip44.s19 \
+	testg6c8.bin testg6c8.s19 testg6c8.wav \
+	testsg24.bin testsg24.s19 testsg24.wav \
+	testflip44.bin testflip44.s19 testflip44.wav \
 	paltest1.ppm \
-	paltest1.bin paltest1.s19 \
-	paltest2.bin paltest2.s19
+	paltest1.bin paltest1.s19 paltest1.wav \
+	paltest2.bin paltest2.s19 paltest2.wav
 
 OBJECTS=gencolors.o test.ppm testg6c8.asm testsg24.asm testflip44.asm
 
@@ -21,6 +21,11 @@ all: $(TARGETS)
 
 %.s19: %.asm
 	mamou -mr -ts -l -y -o$@ $<
+
+%.wav: %.bin
+	cecb bulkerase $@
+	cecb copy -2 -b -g $< \
+		$(@),$$(echo $< | cut -c1-8 | tr [:lower:] [:upper:])
 
 .c.o:
 	$(CC) $(CFLAGS) -c -o $@ $<
