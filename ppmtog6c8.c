@@ -347,7 +347,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	fprintf(outfile, "\torg $0600\n");
+	fprintf(outfile, "\torg $0e00\n");
 
 	for (i = 0; i < PPM_VERT_PIXELS; i++)
 		for (j = 0; j < PPM_HORIZ_PIXELS / PIXELS_PER_BYTE; j += 8) {
@@ -360,7 +360,7 @@ int main(int argc, char *argv[])
 				cocobuf[i][j+6], cocobuf[i][j+7]);
 		}
 
-	fprintf(outfile, "\torg $1e00\n");
+	fprintf(outfile, "\torg $2600\n");
 
 	fprintf(outfile, "START\tlda\t#$ff\t; Setup DP register\n");
 	fprintf(outfile, "\ttfr\ta,dp\n");
@@ -368,9 +368,11 @@ int main(int argc, char *argv[])
 
 	fprintf(outfile, "\torcc\t#$50\t; Disable interrupts\n");
 
-	fprintf(outfile, "VINIT\tclr\t$ffc3\t; Setup G6C video mode at address $0600\n");
+	fprintf(outfile, "VINIT\tclr\t$ffc3\t; Setup G6C video mode at address $0e00\n");
 	fprintf(outfile, "\tclr\t$ffc5\n");
 	fprintf(outfile, "\tclr\t$ffc7\n");
+	fprintf(outfile, "\tclr\t$ffc9\n");
+	fprintf(outfile, "\tclr\t$ffcb\n");
 	fprintf(outfile, "\tlda\t#$e8\n");
 	fprintf(outfile, "\tsta\t$ff22\n");
 
