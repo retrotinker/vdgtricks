@@ -434,6 +434,8 @@ int main(int argc, char *argv[])
 
 	fprintf(outfile, "VLOOP\tjmp\tVSYNC\n");
 
+	fprintf(outfile, "\tEND\tSTART\n");
+
 	fclose(outfile);
 
 	return 0;

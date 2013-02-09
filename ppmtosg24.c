@@ -484,6 +484,8 @@ int main(int argc, char *argv[])
 
 	fprintf(outfile, "VLOOP\tjmp\tCHKUART\n");
 
+	fprintf(outfile, "\tEND\tSTART\n");
+
 	fclose(outfile);
 
 	return 0;

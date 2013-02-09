@@ -839,6 +839,7 @@ int main(int argc, char *argv[])
 	fprintf(outfile, "\tlda\t$ff68\n");
 	fprintf(outfile, "\tjmp\t[$fffe]\tRe-enter monitor\n");
 	fprintf(outfile, "VLOOP\tjmp\tVINIT\n");
+	fprintf(outfile, "\tEND\tSTART\n");
 
 	fclose(outfile);
 
