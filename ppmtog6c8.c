@@ -424,13 +424,8 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
-
-	fprintf(outfile, "* Check for user break (development only)\n");
-	fprintf(outfile, "CHKUART\tlda\t$ff69\t\tCheck for serial port activity\n");
-	fprintf(outfile, "\tbita\t#$08\n");
-	fprintf(outfile, "\tbeq\tVLOOP\n");
-	fprintf(outfile, "\tlda\t$ff68\n");
-	fprintf(outfile, "\tjmp\t[$fffe]         Re-enter monitor\n");
+	fprintf(outfile, "\ttst\t$ff00\t; Wait for next hsync interrupt\n");
+	fprintf(outfile, "\tsync\n");
 
 	fprintf(outfile, "VLOOP\tjmp\tVSYNC\n");
 

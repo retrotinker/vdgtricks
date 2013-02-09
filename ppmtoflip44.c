@@ -832,12 +832,6 @@ int main(int argc, char *argv[])
 	fprintf(outfile, "\tnop\n");
 	fprintf(outfile, "\tdecb\n");
 	fprintf(outfile, "\tbne\tSGVACTV\n");
-	fprintf(outfile, "* Check for user break (development only)\n");
-	fprintf(outfile, "CHKUART\tlda\t$ff69\tCheck for serial port activity\n");
-	fprintf(outfile, "\tbita\t#$08\n");
-	fprintf(outfile, "\tbeq\tVLOOP\n");
-	fprintf(outfile, "\tlda\t$ff68\n");
-	fprintf(outfile, "\tjmp\t[$fffe]\tRe-enter monitor\n");
 	fprintf(outfile, "VLOOP\tjmp\tVINIT\n");
 	fprintf(outfile, "\tEND\tSTART\n");
 

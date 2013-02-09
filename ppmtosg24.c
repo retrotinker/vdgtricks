@@ -475,14 +475,7 @@ int main(int argc, char *argv[])
 	fprintf(outfile, "\tclr\t$ffc7\n");
 	fprintf(outfile, "\tclr\t$ff22\n");
 
-	fprintf(outfile, "* Check for user break (development only)\n");
-	fprintf(outfile, "CHKUART\tlda\t$ff69\t\tCheck for serial port activity\n");
-	fprintf(outfile, "\tbita\t#$08\n");
-	fprintf(outfile, "\tbeq\tVLOOP\n");
-	fprintf(outfile, "\tlda\t$ff68\n");
-	fprintf(outfile, "\tjmp\t[$fffe]         Re-enter monitor\n");
-
-	fprintf(outfile, "VLOOP\tjmp\tCHKUART\n");
+	fprintf(outfile, "VLOOP\tjmp\tVLOOP\n");
 
 	fprintf(outfile, "\tEND\tSTART\n");
 
