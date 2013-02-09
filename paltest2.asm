@@ -3404,11 +3404,4 @@ SHCVBLK	tst	$ff00
 	decb
 	bne	SHCVBLK
 
-* Check for user break (development only)
-CHKUART	lda	$ff69		Check for serial port activity
-	bita	#$08
-	beq	VLOOP
-	lda	$ff68
-	jmp	[$fffe]         Re-enter monitor
-
 VLOOP	jmp	VSYNC

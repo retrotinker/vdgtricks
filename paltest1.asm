@@ -3191,11 +3191,7 @@ HCOUNT	tst	$ff00
 	sta	$ff22
 	sta	$ff22
 
-* Check for user break (development only)
-CHKUART	lda	$ff69		Check for serial port activity
-	bita	#$08
-	beq	VLOOP
-	lda	$ff68
-	jmp	[$fffe]         Re-enter monitor
+	tst	$ff00	Wait for next hsync interrupt
+	sync
 
 VLOOP	jmp	VSYNC
