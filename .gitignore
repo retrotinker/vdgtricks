@@ -9,6 +9,9 @@ colors.h
 
 # intermediate objects
 gencolors.o
+ppmtoflip44.o
+ppmtog6c8.o
+ppmtosg24.o
 
 # tool binaries
 gencolors
@@ -18,14 +21,19 @@ ppmtoflip44
 
 # paltest binaries
 paltest1.ppm
+paltest1.bin
 paltest1.s19
+paltest2.bin
 paltest2.s19
 
 # test images and binaries
 test.ppm
 testg6c8.asm
+testg6c8.bin
 testg6c8.s19
 testsg24.asm
+testsg24.bin
 testsg24.s19
 testflip44.asm
+testflip44.bin
 testflip44.s19
