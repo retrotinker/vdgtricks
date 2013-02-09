@@ -67,7 +67,7 @@ testsg24.asm: test.ppm ppmtosg24
 testflip44.asm: test.ppm ppmtoflip44
 	./ppmtoflip44 $< $@
 
-vdgtricks.dsk: paltest1.bin paltest2.bin COPYING \
+vdgtricks.dsk: paltest1.bin paltest2.bin COPYING README \
 		testg6c8.bin testsg24.bin testflip44.bin
 	decb dskini $@
 	decb copy -2 -b paltest1.bin $@,PALTEST1.BIN
@@ -76,6 +76,7 @@ vdgtricks.dsk: paltest1.bin paltest2.bin COPYING \
 	decb copy -2 -b testsg24.bin $@,TESTSG24.BIN
 	decb copy -2 -b testflip44.bin $@,TESTFLIP.BIN
 	decb copy -3 -a -l COPYING $@,COPYING
+	decb copy -3 -a -l README $@,README
 
 clean:
 	rm -f $(TARGETS) $(EXTRA) $(OBJECTS)
