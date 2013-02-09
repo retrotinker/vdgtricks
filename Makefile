@@ -3,8 +3,9 @@
 CFLAGS=-Wall
 
 TARGETS=ppmtog6c8 ppmtosg24 ppmtoflip44 \
-	testg6c8.s19 testsg24.s19 \
-	testflip44.s19 \
+	testg6c8.bin testg6c8.s19 \
+	testsg24.bin testsg24.s19 \
+	testflip44.bin testflip44.s19 \
 	paltest1.ppm \
 	paltest1.s19 \
 	paltest2.s19
@@ -36,13 +37,13 @@ ppmtoflip44: ppmtoflip44.c palette.h
 	$(CC) $(CFLAGS) -o ppmtoflip44 ppmtoflip44.c
 
 paltest1.s19: paltest1.asm
-	mamou -mb -ts -opaltest1.s19 paltest1.asm -l -y
+	mamou -mr -ts -opaltest1.s19 paltest1.asm -l -y
 
 paltest1.ppm: paltest1.dat
 	xxd -p -r $< $@
 
 paltest2.s19: paltest2.asm
-	mamou -mb -ts -opaltest2.s19 paltest2.asm -l -y
+	mamou -mr -ts -opaltest2.s19 paltest2.asm -l -y
 
 test.ppm: test.jpg
 	convert -resize 125x200%! -resize 128x192 -quantize YIQ +dither \
@@ -52,20 +53,29 @@ test.ppm: test.jpg
 testg6c8.asm: test.ppm ppmtog6c8
 	./ppmtog6c8 $< $@
 
+testg6c8.bin: testg6c8.asm
+	mamou -mb -tb -o$@ $< -l -y
+
 testg6c8.s19: testg6c8.asm
-	mamou -mb -ts -otestg6c8.s19 testg6c8.asm -l -y
+	mamou -mr -ts -o$@ $< -l -y
 
 testsg24.asm: test.ppm ppmtosg24
 	./ppmtosg24 $< $@
 
+testsg24.bin: testsg24.asm
+	mamou -mb -tb -o$@ $< -l -y
+
 testsg24.s19: testsg24.asm
-	mamou -mb -ts -otestsg24.s19 testsg24.asm -l -y
+	mamou -mr -ts -o$@ $< -l -y
 
 testflip44.asm: test.ppm ppmtoflip44
 	./ppmtoflip44 $< $@
 
+testflip44.bin: testflip44.asm
+	mamou -mb -tb -o$@ $< -l -y
+
 testflip44.s19: testflip44.asm
-	mamou -mb -ts -otestflip44.s19 testflip44.asm -l -y
+	mamou -mr -ts -o$@ $< -l -y
 
 clean:
 	rm -f $(TARGETS) $(EXTRA) $(OBJECTS)
