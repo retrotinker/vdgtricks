@@ -7,8 +7,8 @@ TARGETS=ppmtog6c8 ppmtosg24 ppmtoflip44 \
 	testsg24.bin testsg24.s19 \
 	testflip44.bin testflip44.s19 \
 	paltest1.ppm \
-	paltest1.s19 \
-	paltest2.s19
+	paltest1.bin paltest1.s19 \
+	paltest2.bin paltest2.s19
 
 OBJECTS=gencolors.o test.ppm testg6c8.asm testsg24.asm testflip44.asm
 
@@ -36,14 +36,20 @@ ppmtosg24: ppmtosg24.c palette.h
 ppmtoflip44: ppmtoflip44.c palette.h
 	$(CC) $(CFLAGS) -o ppmtoflip44 ppmtoflip44.c
 
+paltest1.bin: paltest1.asm
+	mamou -mb -tb -o$@ $< -l -y
+
 paltest1.s19: paltest1.asm
-	mamou -mr -ts -opaltest1.s19 paltest1.asm -l -y
+	mamou -mr -ts -o$@ $< -l -y
 
 paltest1.ppm: paltest1.dat
 	xxd -p -r $< $@
 
+paltest2.bin: paltest2.asm
+	mamou -mb -tb -o$@ $< -l -y
+
 paltest2.s19: paltest2.asm
-	mamou -mr -ts -opaltest2.s19 paltest2.asm -l -y
+	mamou -mr -ts -o$@ $< -l -y
 
 test.ppm: test.jpg
 	convert -resize 125x200%! -resize 128x192 -quantize YIQ +dither \
