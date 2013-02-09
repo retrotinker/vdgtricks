@@ -3195,3 +3195,5 @@ HCOUNT	tst	$ff00
 	sync
 
 VLOOP	jmp	VSYNC
+
+	END	START
