@@ -8,7 +8,8 @@ TARGETS=ppmtog6c8 ppmtosg24 ppmtoflip44 \
 	testflip44.bin testflip44.s19 testflip44.wav \
 	paltest1.ppm \
 	paltest1.bin paltest1.s19 paltest1.wav \
-	paltest2.bin paltest2.s19 paltest2.wav
+	paltest2.bin paltest2.s19 paltest2.wav \
+	vdgtricks.dsk
 
 OBJECTS=gencolors.o test.ppm testg6c8.asm testsg24.asm testflip44.asm
 
@@ -65,6 +66,16 @@ testsg24.asm: test.ppm ppmtosg24
 
 testflip44.asm: test.ppm ppmtoflip44
 	./ppmtoflip44 $< $@
+
+vdgtricks.dsk: paltest1.bin paltest2.bin COPYING \
+		testg6c8.bin testsg24.bin testflip44.bin
+	decb dskini $@
+	decb copy -2 -b paltest1.bin $@,PALTEST1.BIN
+	decb copy -2 -b paltest2.bin $@,PALTEST2.BIN
+	decb copy -2 -b testg6c8.bin $@,TESTG6C8.BIN
+	decb copy -2 -b testsg24.bin $@,TESTSG24.BIN
+	decb copy -2 -b testflip44.bin $@,TESTFLIP.BIN
+	decb copy -3 -a -l COPYING $@,COPYING
 
 clean:
 	rm -f $(TARGETS) $(EXTRA) $(OBJECTS)
