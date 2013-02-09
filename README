@@ -2,29 +2,29 @@ This repository contains code related to my "Stupid VDG Tricks" blog:
 
 	http://vdgtricks.blogspot.com/
 
+The source code is availble through Git, at the links available here:
+
+	http://git.infradead.org/users/linville/vdgtricks.git
+
 At present, it contains code to convert still images to a format
 displayable on a CoCo in SG24 mode, 8-color G6C mode, and the 44-color
 "flicker" mode created when combining the previous two modes at
 runtime.
 
-This is a project to accompany a blog.	Don't expect "user friendly"
-results, at least not anytime soon.  If you can't program in C or
-6809 assembly, or if you aren't comfortable looking at a Makefile,
-or if you aren't using Linux or some other Unix-centric environment,
-then you will have trouble taking any value from this project.	I'm not
-hostile to anyone that doesn't meet the above list, I'm just not ready
-for you.  Patches are welcome, if you want to improve the project.
+This is a project to accompany a blog.	Please don't expect
+particularly "user friendly" results, at least not anytime soon.
+Patches are welcome, if you want to improve the project.  With that
+said, I have tidied things up a bit and I am now producing CLOADM'able
+WAV files, LOADM'able BIN files, and a DECB diskette image.  These all
+run on my NTSC CoCo and my Tano Dragon.  PAL machines will undoubtedly
+produce disappointing results...
 
-As-is, if you have a C compiler and mamou in your PATH then all
-you need to do is run "make".  The objects are located to execute
-from $1e00.  To change the picture, copy whatever picture you want
-to use over to the name test.jpg and re-run "make".  Currently I
-am producing S-record files for use in my MON09-based development
-environment.  The assembly stuff may need to be relocated in order
-to be loaded from DECB or whatever.  Let me know, and I'll work with
-you to resolve issues like that.
+As-is, if you have a C compiler and mamou (and cecb, and decb) in your
+PATH then all you need to do is run "make".  To change the picture,
+copy whatever picture you want to use over to the name test.jpg and
+re-run "make".
 
 Well...enough for now!
 
 John W. Linville
-1 August 2012
+9 February 2013
