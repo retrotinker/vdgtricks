@@ -11,7 +11,7 @@ TARGETS=ppmtog6c8 ppmtosg24 ppmtoflip44 \
 	paltest2.bin paltest2.s19 paltest2.wav \
 	vdgtricks.dsk
 
-OBJECTS=gencolors.o test.ppm testg6c8.asm testsg24.asm testflip44.asm
+OBJECTS=test.ppm testg6c8.asm testsg24.asm testflip44.asm
 
 EXTRA=gencolors colors.h
 
@@ -39,9 +39,9 @@ gencolors: gencolors.o
 colors.h: gencolors
 	./gencolors > $@
 
-ppmtog6c8: colors.h
+ppmtog6c8.o: colors.h
 
-ppmtog6c8: ppmtog6c8.o palette.h colors.h
+ppmtog6c8: ppmtog6c8.o palette.h
 	$(CC) $(CFLAGS) -o $@ $<
 
 ppmtosg24: ppmtosg24.o palette.h
@@ -79,4 +79,4 @@ vdgtricks.dsk: paltest1.bin paltest2.bin COPYING README \
 	decb copy -3 -a -l README $@,README
 
 clean:
-	rm -f $(TARGETS) $(EXTRA) $(OBJECTS)
+	rm -f *.o $(TARGETS) $(EXTRA) $(OBJECTS)
