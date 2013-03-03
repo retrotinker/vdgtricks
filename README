@@ -22,9 +22,9 @@ produce disappointing results...
 As-is, if you have a C compiler and mamou (and cecb, and decb) in your
 PATH then all you need to do is run "make".  To change the picture,
 copy whatever picture you want to use over to the name test.jpg and
-re-run "make".
+re-run "make" (or "make VIDEO=pal" if you have a PAL CoCo).
 
 Well...enough for now!
 
 John W. Linville
-9 February 2013
+3 March 2013

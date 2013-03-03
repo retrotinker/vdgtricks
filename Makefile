@@ -15,13 +15,23 @@ OBJECTS=test.ppm testg6c8.asm testsg24.asm testflip44.asm
 
 EXTRA=gencolors colors.h
 
+VIDEO?=ntsc
+
+ifeq ($(VIDEO),ntsc)
+	ASMFLAGS='-aNTSC=1'
+else ifeq ($(VIDEO),pal)
+	ASMFLAGS='-aPAL=1'
+else
+$(error Invalid VIDEO definition!)
+endif
+
 all: $(TARGETS)
 
 %.bin: %.asm
-	mamou -mb -tb -l -y -o$@ $<
+	mamou -mb -tb -l -y $(ASMFLAGS) -o$@ $<
 
 %.s19: %.asm
-	mamou -mr -ts -l -y -o$@ $<
+	mamou -mr -ts -l -y $(ASMFLAGS) -o$@ $<
 
 %.wav: %.bin
 	cecb bulkerase $@

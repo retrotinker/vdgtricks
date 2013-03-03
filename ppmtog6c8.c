@@ -347,6 +347,14 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	fprintf(outfile, "\tifeq\tNTSC-1\n");
+	fprintf(outfile, "VLINES\tequ\t$45\n");
+	fprintf(outfile, "\telse\n");
+	fprintf(outfile, "\tifeq\tPAL-1\n");
+	fprintf(outfile, "VLINES\tequ\t$77\n");
+	fprintf(outfile, "\tendif\n");
+	fprintf(outfile, "\tendif\n");
+
 	fprintf(outfile, "\torg $0e00\n");
 
 	for (i = 0; i < PPM_VERT_PIXELS; i++)
@@ -399,7 +407,7 @@ int main(int argc, char *argv[])
 	fprintf(outfile, "*\n");
 	fprintf(outfile, "* After the program starts, vsync interrupts aren't used...\n");
 	fprintf(outfile, "*\n");
-	fprintf(outfile, "VSYNC\tldb\t#$45\t; Count lines during vblank and vertical borders\n");
+	fprintf(outfile, "VSYNC\tldb\t#VLINES\t; Count lines during vblank and vertical borders\n");
 	fprintf(outfile, "HCOUNT\ttst\t$ff00\n");
 	fprintf(outfile, "\tsync\n");
 
@@ -411,14 +419,25 @@ int main(int argc, char *argv[])
 
 	for (i = 0; i < PPM_VERT_PIXELS; i++) {
 		for (j = 0; j < LINES_PER_PIXEL; j++) {
+			if (colorset[i][0] == 0)
+				fprintf(outfile, "\tstb\t$ff22\n");
+			else
+				fprintf(outfile, "\tsta\t$ff22\n");
+
 			fprintf(outfile, "\ttst\t$ff00\t; Wait for next hsync interrupt\n");
 			fprintf(outfile, "\tsync\n");
 
 			fprintf(outfile, "\tnop\t\t; Extra delay for beginning of visible line\n");
+			fprintf(outfile, "\tifeq\tNTSC-1\n");
 			fprintf(outfile, "\tnop\n");
 			fprintf(outfile, "\tnop\n");
+			fprintf(outfile, "\tnop\n");
+			fprintf(outfile, "\tnop\n");
+			fprintf(outfile, "\telse\n");
+			fprintf(outfile, "\tandcc\t#$ff\n");
+			fprintf(outfile, "\tendif\n");
 
-			for (k = 0; k < BLOCKS_PER_LINE; k++) {
+			for (k = 1; k < BLOCKS_PER_LINE; k++) {
 				if (colorset[i][k] == 0)
 					fprintf(outfile, "\tstb\t$ff22\n");
 				else
