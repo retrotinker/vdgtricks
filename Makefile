@@ -2,14 +2,32 @@
 
 CFLAGS=-Wall
 
-TARGETS=ppmtog6c8 ppmtosg24 ppmtoflip44 \
-	testg6c8.bin testg6c8.wav \
+RUN?=decb
+
+TARGBASE=ppmtog6c8 ppmtosg24 ppmtoflip44 \
+	paltest1.ppm
+
+TARGDECB=testg6c8.bin testg6c8.wav \
 	testsg24.bin testsg24.wav \
 	testflip44.bin testflip44.wav \
-	paltest1.ppm \
 	paltest1.bin paltest1.wav \
 	paltest2.bin paltest2.wav \
 	vdgtricks.dsk
+
+TARGMON09=testg6c8.s19 \
+	testsg24.s19 \
+	testflip44.s19 \
+	paltest1.s19 \
+	paltest2.s19
+
+TARGETS=$(TARGBASE)
+ifeq ($(RUN),decb)
+	TARGETS+=$(TARGDECB)
+else ifeq ($(RUN),mon09)
+	TARGETS+=$(TARGMON09)
+else
+$(error Invalid RUN definition!)
+endif
 
 OBJECTS=test.ppm testg6c8.asm testsg24.asm testflip44.asm
 
@@ -89,4 +107,4 @@ vdgtricks.dsk: paltest1.bin paltest2.bin COPYING README \
 	decb copy -3 -a -l README $@,README
 
 clean:
-	rm -f *.o $(TARGETS) $(EXTRA) $(OBJECTS)
+	rm -f *.o $(TARGBASE) $(TARGDECB) $(TARGMON09) $(EXTRA) $(OBJECTS)
